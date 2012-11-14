@@ -26,13 +26,13 @@ name() // => 'Homer Simpson'
 
    Write a value
 
-```
+```javascript
 name('Bart Simpson')
 ```
 
   - Emits "change" event with `(value, previousValue)`.
 
-```
+```javascript
 name.on('change', function(new_name, old_name) {
   console.log('my name changed from', old_name, 'to', new_name)
 })
