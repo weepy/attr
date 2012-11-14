@@ -64,7 +64,7 @@ name.on('change', function(new_name, old_name) {
 
 ## Computed properties
 
-  These have the same API, except no setter and a function is passed in as the initial value
+  These have the same API, except no setter and a function is passed in and is run to determine the intial value
 
 ### attr.computed(fn)
 
