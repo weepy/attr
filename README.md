@@ -20,7 +20,7 @@ name = attr('Homer Simpson')
 
 ```javascript
 name() // => 'Homer Simpson'
-
+```
 
 ### attr(val)
 
