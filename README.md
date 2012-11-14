@@ -1,8 +1,7 @@
 attr
 ====
 
-Evented Property getter/setter
-
+Evented Property getter/setter component
 
 ## API
 
@@ -14,7 +13,7 @@ Evented Property getter/setter
 name = attr('Homer Simpson')
 ```
 
-### attr()
+### ()
   
   Read a value
 
@@ -22,7 +21,7 @@ name = attr('Homer Simpson')
 name() // => 'Homer Simpson'
 ```
 
-### attr(val)
+### (val)
 
    Write a value
 
