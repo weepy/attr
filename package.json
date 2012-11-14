@@ -1,8 +1,0 @@
-{
-  "name": "attr",
-  "version": "0.0.0",
-  "devDependencies": {
-    "mocha": "*",
-    "should": "*"
-  }
-}

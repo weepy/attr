@@ -15,7 +15,6 @@ var methods = {
       var val = this()
       this.emit('change', val, this.old)
     }
-
     return this
   },
   toString: function() { 
@@ -25,10 +24,22 @@ var methods = {
 
 Emitter(methods)
 
+function extend(a, b) {
+  for(var i in b) a[i] = b[i]
+}
+
+/* 
+ * simple attribute
+ */
 
 function createAttr(arg) {
+
+  // IDEA: autocreate computed attr for function values
+  // if(typeof arg =='function') return createAttr.computed(arg)
+
   function attr(v) {
     if(arguments.length) {
+      // setter
       attr.old = attr.value
       attr.value = v
       attr.emit('change', attr.value, attr.old)
@@ -36,49 +47,61 @@ function createAttr(arg) {
     return attr.value
   }
 
+  // mixin common methods
+  extend(attr, methods)
   
-  for(var i in methods) attr[i] = methods[i]
   // set to initial
   attr.value = arg
-
   
   return attr
 }
 
+/* 
+ * computed attribute
+ */
+
 createAttr.computed = function(fn) {
-  function cattr() {
-    cattr.old = cattr.value
-    cattr.value = fn()
-    cattr.emit('change', cattr.value, cattr.old)
-    return cattr.value
+  function attr() {
+    // nb - there is no setter
+    attr.old = attr.value
+    attr.value = fn()
+    attr.emit('change', attr.value, attr.old)
+    return attr.value
   }
 
-  
-  for(var i in methods) cattr[i] = methods[i]
+  // mixin common methods
+  extend(attr, methods)
 
-  cattr.value = fn()
+  // set to initial value
+  attr.value = fn()
 
   // setup dependencies
-  cattr._depends = []
+  attr._depends = []
 
+  // dependency setter
+  attr.depends = function(deps) {
+    // getter
+    if(arguments.length == 0) return attr._depends
 
-  cattr.depends = function(deps) {
-    cattr._depends.forEach(function(dep) {
+    // unbind old
+    attr._depends.forEach(function(dep) {
       dep.off('change', changeFn)
     })
 
-    cattr._depends = deps
+    attr._depends = deps
+    // bind new
     deps.forEach(function(dep) {
       dep.on('change', changeFn)
     })
-    return cattr
+    return attr
   }
 
+  // static change function for binding
   function changeFn() {
-    cattr.change()
+    attr.change()
   }
 
-  return cattr
+  return attr
 }
 
 module.exports = createAttr

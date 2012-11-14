@@ -136,7 +136,7 @@ describe('attr()', function(){
 
       var fullName = attr.computed(function() {})
     
-      assert(fullName._depends.length == 0)
+      assert(fullName.depends().length == 0)
     })
 
 
