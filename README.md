@@ -38,9 +38,9 @@ name.on('change', function(new_name, old_name) {
 })
 ```
 
-### .toggle 
+### .toggle()
 
-  Turn truthy to false and falsey to true
+  Flips truthy to false and falsey to true
 
 ### .incr(val) 
   
