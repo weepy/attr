@@ -47,7 +47,7 @@ name.on('change', function(new_name, old_name) {
 
 ### .change(fn)
 
-  Binds a fn to the `change`
+  Binds fn to the `change` event
 
 ### .change()
 
