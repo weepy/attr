@@ -56,7 +56,7 @@ name.on('change', function(new_name, old_name) {
 
 ### .value
   
-  contains the current value
+  contains the current value. Use to get value without running the getter (most useful for computed properties)
 
 ### .old
   
@@ -91,7 +91,7 @@ fullName() // => 'Homer Simpson'
 fullName.depends([firstName, surName])
 firstName('Bart')
 
-fullName() // => 'Bart Simpson'
+fullName.value // => 'Bart Simpson'
 ```
 
 # Testing
