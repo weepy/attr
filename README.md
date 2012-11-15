@@ -1,7 +1,5 @@
-attr
+evented attributes with automatic dependencies
 ====
-
-Evented Property getter/setter component and automatic dependency calculation
 
 ## API
 
