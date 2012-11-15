@@ -136,20 +136,37 @@ describe('attr()', function(){
 
       var fullName = attr.computed(function() {})
     
-      assert(fullName.depends().length == 0)
+      assert(fullName.depends.length == 0)
+    })
+
+    it('has 2 dependencies calculated automatically', function(){
+
+      var firstName = attr('John')
+      var surName = attr('Bob')
+      
+      var fullName = attr.computed(function() { return firstName() + surName() })
+    
+      assert(fullName.depends.length == 2)
+    })
+
+    it('has 1 dependencies when set explicitly', function(){
+
+      var firstName = attr('John')
+      var surName = attr('Bob')
+      
+      var fullName = attr.computed(function() { return firstName() + surName() }, [firstName])
+    
+      assert(fullName.depends.length == 1)
     })
 
 
     it('recalcs when a dependency changes', function(){
-
-            var firstName = attr('John')
+      var firstName = attr('John')
       var surName = attr('Bob')
 
       var fullName = attr.computed(function() {
         return firstName() + ' ' + surName()
-      }).depends([surName, firstName])
-
-      assert(fullName._depends.length == 2)
+      })
 
       surName('Sandy')
 

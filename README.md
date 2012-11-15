@@ -1,7 +1,7 @@
 attr
 ====
 
-Evented Property getter/setter component
+Evented Property getter/setter component and automatic dependency calculation
 
 ## API
 
@@ -66,9 +66,9 @@ name.on('change', function(new_name, old_name) {
 
   These have the same API, except no setter and a function is passed in and is run to determine the intial value
 
-### attr.computed(fn)
+### attr.computed(fn, dependencies)
 
-   Creates a computed attr:
+   Creates a computed attr. If dependencies is not set explicitly, they are automatically calculated
 
 ```javascript
 fullName = attr.computed(function() {
@@ -78,20 +78,10 @@ fullName = attr.computed(function() {
 fullName() // => 'Homer Simpson'
 ```
 
-### attr.depends()  
+### attr.depencencies
 
-  Returns the current dependencies
+  Contains the current dependencies
 
-### attr.depends(array)  
-
-  Set dependencies. attr is recalculated whenever a dependency changes
-
-```javascript
-fullName.depends([firstName, surName])
-firstName('Bart')
-
-fullName.value // => 'Bart Simpson'
-```
 
 # Testing
 

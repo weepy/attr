@@ -32,17 +32,22 @@ function extend(a, b) {
  * simple attribute
  */
 
-function createAttr(arg) {
+var watcher = false
+
+function Attr(arg) {
 
   // IDEA: autocreate computed attr for function values
-  // if(typeof arg =='function') return createAttr.computed(arg)
+  // if(typeof arg =='function') return Attr.computed(arg)
 
   function attr(v) {
     if(arguments.length) {
       // setter
       attr.old = attr.value
       attr.value = v
+      
       attr.emit('change', attr.value, attr.old)
+    } else {
+      if(watcher) watcher(attr)
     }
     return attr.value
   }
@@ -56,11 +61,28 @@ function createAttr(arg) {
   return attr
 }
 
+
+
+Attr.dependencies = function(fn) {
+  var deps = []
+  // watches for simple attr reads
+  watcher = function(attr) {
+    deps.push(attr)
+  }
+  var val = fn()
+  watcher = false
+  return {
+    value: val,
+    depends: deps
+  }
+}
+
+
 /* 
  * computed attribute
  */
 
-createAttr.computed = function(fn) {
+Attr.computed = function(fn, depends) {
   function attr() {
     // nb - there is no setter
     attr.old = attr.value
@@ -72,31 +94,22 @@ createAttr.computed = function(fn) {
   // mixin common methods
   extend(attr, methods)
 
-  // set to initial value
-  attr.value = fn()
-
   // setup dependencies
-  attr._depends = []
-
-  // dependency setter
-  attr.depends = function(deps) {
-    // getter
-    if(arguments.length == 0) return attr._depends
-
-    // unbind old
-    attr._depends.forEach(function(dep) {
-      dep.off('change', changeFn)
-    })
-
-    attr._depends = deps
-    // bind new
-    deps.forEach(function(dep) {
-      dep.on('change', changeFn)
-    })
-    return attr
+  if(depends) {
+    attr.value = fn() // set to initial value
+  } else {
+    var o = Attr.dependencies(fn)
+    depends = o.depends
+    attr.value = o.value
   }
 
-  // static change function for binding
+  attr.depends = depends
+
+  depends.forEach(function(dep) {
+    dep.on('change', changeFn)
+  })
+
+  // static change function
   function changeFn() {
     attr.change()
   }
@@ -104,4 +117,4 @@ createAttr.computed = function(fn) {
   return attr
 }
 
-module.exports = createAttr
+module.exports = Attr
