@@ -1,5 +1,8 @@
+component-attr
+=========
+
 evented attributes with automatic dependencies
-====
+---
 
 ## API
 
