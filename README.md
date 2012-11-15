@@ -64,14 +64,18 @@ name.on('change', function(new_name, old_name) {
   
   contains the last value 
 
+### .dependencies
+
+  Contains a list of dependencies (this will be null for simple attr)
 
 ## Computed properties
 
-  These have the same API, except no setter and a function is passed in and is run to determine the intial value
+  These have the same API, except no setter and a function is passed in and is run to determine the initial value
 
 ### attr.computed(fn, dependencies)
 
-   Creates a computed attr. If dependencies is not set explicitly, they are automatically calculated
+  Creates a computed attr. 
+  Dependencies are automatically calculated unless set explicitly.
 
 ```javascript
 var cattr = require('attr').computed
@@ -82,12 +86,10 @@ fullName = cattr(function() {
 
 fullName() // => 'Homer Simpson'
 
-fullName.depenencies // => [ firstName, surName ]
+fullName.dependencies // => [ firstName, surName ]
 ```
 
-### .depencencies
 
-  Contains the current dependencies
 
 
 ### attr.dependencies(fn)
