@@ -81,6 +81,8 @@ fullName = cattr(function() {
 })
 
 fullName() // => 'Homer Simpson'
+
+fullName.depenencies // => [ firstName, surName ]
 ```
 
 ### .depencencies
