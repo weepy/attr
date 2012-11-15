@@ -62,6 +62,7 @@ function Attr(arg) {
 }
 
 
+var lastValue = null
 
 Attr.dependencies = function(fn) {
   var deps = []
@@ -69,12 +70,9 @@ Attr.dependencies = function(fn) {
   watcher = function(attr) {
     deps.push(attr)
   }
-  var val = fn()
+  lastValue = fn()
   watcher = false
-  return {
-    value: val,
-    depends: deps
-  }
+  return deps
 }
 
 
@@ -98,9 +96,8 @@ Attr.computed = function(fn, depends) {
   if(depends) {
     attr.value = fn() // set to initial value
   } else {
-    var o = Attr.dependencies(fn)
-    depends = o.depends
-    attr.value = o.value
+    depends = Attr.dependencies(fn)
+    attr.value = lastValue
   }
 
   attr.depends = depends

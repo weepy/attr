@@ -78,9 +78,14 @@ fullName = attr.computed(function() {
 fullName() // => 'Homer Simpson'
 ```
 
-### attr.depencencies
+### .depencencies
 
   Contains the current dependencies
+
+
+### attr.dependencies(fn)
+
+   Calculates a list of the simple attributes called by running this function
 
 
 # Testing

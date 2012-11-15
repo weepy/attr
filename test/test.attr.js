@@ -149,6 +149,17 @@ describe('attr()', function(){
       assert(fullName.depends.length == 2)
     })
 
+    it('attr.dependencies calculates dependencies of a function', function(){
+
+      var firstName = attr('John')
+      var surName = attr('Bob')
+      
+      var deps = attr.dependencies(function() { return firstName() + surName() })
+    
+      assert(deps.length == 2)
+    })
+
+
     it('has 1 dependencies when set explicitly', function(){
 
       var firstName = attr('John')
