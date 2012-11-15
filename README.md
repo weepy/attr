@@ -11,10 +11,12 @@ evented attributes with automatic dependencies
   Create a new attr with value set to val
 
 ```javascript
+attr = require('attr')
+
 name = attr('Homer Simpson')
 ```
 
-### ()
+### xxx()
   
   Read a value
 
@@ -22,7 +24,7 @@ name = attr('Homer Simpson')
 name() // => 'Homer Simpson'
 ```
 
-### (val)
+### xxx(val)
 
    Write a value
 
@@ -72,7 +74,9 @@ name.on('change', function(new_name, old_name) {
    Creates a computed attr. If dependencies is not set explicitly, they are automatically calculated
 
 ```javascript
-fullName = attr.computed(function() {
+var cattr = require('attr').computed
+
+fullName = cattr(function() {
   return firstName() + ' ' + surName()
 })
 
