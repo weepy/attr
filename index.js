@@ -80,7 +80,7 @@ Attr.dependencies = function(fn) {
  * computed attribute
  */
 
-Attr.computed = function(fn, depends) {
+Attr.computed = function(fn, dependencies) {
   function attr() {
     // nb - there is no setter
     attr.old = attr.value
@@ -93,16 +93,16 @@ Attr.computed = function(fn, depends) {
   extend(attr, methods)
 
   // setup dependencies
-  if(depends) {
+  if(dependencies) {
     attr.value = fn() // set to initial value
   } else {
-    depends = Attr.dependencies(fn)
+    dependencies = Attr.dependencies(fn)
     attr.value = lastValue
   }
 
-  attr.depends = depends
+  attr.dependencies = dependencies
 
-  depends.forEach(function(dep) {
+  dependencies.forEach(function(dep) {
     dep.on('change', changeFn)
   })
 

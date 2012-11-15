@@ -85,10 +85,10 @@ describe('attr()', function(){
     assert( run == true)
   })
 
-  it('should have no depends', function(){
+  it('should have no dependencies', function(){
     var a = attr(1)
     
-    assert( a.depends == null )
+    assert( a.dependencies == null )
   })
 
   describe('computed attr', function(){
@@ -136,7 +136,7 @@ describe('attr()', function(){
 
       var fullName = attr.computed(function() {})
     
-      assert(fullName.depends.length == 0)
+      assert(fullName.dependencies.length == 0)
     })
 
     it('has 2 dependencies calculated automatically', function(){
@@ -146,7 +146,7 @@ describe('attr()', function(){
       
       var fullName = attr.computed(function() { return firstName() + surName() })
     
-      assert(fullName.depends.length == 2)
+      assert(fullName.dependencies.length == 2)
     })
 
     it('attr.dependencies calculates dependencies of a function', function(){
@@ -167,7 +167,7 @@ describe('attr()', function(){
       
       var fullName = attr.computed(function() { return firstName() + surName() }, [firstName])
     
-      assert(fullName.depends.length == 1)
+      assert(fullName.dependencies.length == 1)
     })
 
 
