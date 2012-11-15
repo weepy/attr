@@ -90,8 +90,6 @@ fullName.dependencies // => [ firstName, surName ]
 ```
 
 
-
-
 ### attr.dependencies(fn)
 
    Calculates a list of the simple attributes called by running this function
