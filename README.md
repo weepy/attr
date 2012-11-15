@@ -28,6 +28,8 @@ name() // => 'Homer Simpson'
 
 ```javascript
 name('Bart Simpson')
+
+name() // => 'Bart Simpson'
 ```
 
   - Emits "change" event with `(value, previousValue)`.
