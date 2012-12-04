@@ -40,7 +40,7 @@ name.on('change', function(new_name, old_name) {
 })
 ```
 
-## Computed properties
+## Computed attr
 
   Has the same API, except function is passed in and is run to determine the initial value. (has no setter)
 
@@ -84,7 +84,7 @@ fullName.dependencies // => [ firstName ]
 
 ### .value
   
-  contains the current value. Use to get value without running the getter (most useful for computed properties)
+  contains the current value. Use to get value without running the getter (most useful for computed attr)
 
 ### .old
   
@@ -100,7 +100,7 @@ fullName.dependencies // => [ firstName ]
 
 ### attr.computed(fn, dependencies)
   
-  Explicitly creates a computed property - this is only useful if autocompute is turned off
+  Explicitly creates a computed attr - this is only useful if autocompute is turned off
 
 ### attr.dependencies(fn)
 
