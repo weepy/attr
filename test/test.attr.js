@@ -186,4 +186,29 @@ describe('attr()', function(){
 
 
   })
+
+  function returnsOne() {
+    return 1
+  }
+
+  describe('autocomputed attr', function(){
+    it('autocompute functions by default', function(){
+      assert(attr.autocompute == true )
+    })
+
+    it('is a computed attr', function(){
+      var a = attr(returnsOne)
+      assert(a.computed == true )
+      assert(a() == 1 )
+    })
+
+    it('if compute is set false they will not be autocomputed', function(){
+      attr.autocompute = false
+      var a = attr(returnsOne)
+      assert(a.computed == null )
+      assert(a() == returnsOne )
+    })
+
+  })
+  
 })

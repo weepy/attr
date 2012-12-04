@@ -2,10 +2,9 @@
   "name": "attr",
   "repo": "weepy/attr",
   "description": "Simple property with get/set and events",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [],
   "dependencies": {
-    "component/assert": "*",
     "component/emitter": "*"
   },
   "development": {

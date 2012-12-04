@@ -34,10 +34,10 @@ function extend(a, b) {
 
 var watcher = false
 
-function Attr(arg) {
+function Attr(arg, dependencies) {
 
-  // IDEA: autocreate computed attr for function values
-  // if(typeof arg =='function') return Attr.computed(arg)
+  // autocreate computed attr for function values
+  if(Attr.autocompute && typeof arg =='function') return Attr.computed(arg, dependencies)
 
   function attr(v) {
     if(arguments.length) {
@@ -61,6 +61,12 @@ function Attr(arg) {
   return attr
 }
 
+/*
+ * Autocompute functions
+ */
+
+Attr.autocompute = true
+
 
 var lastValue = null
 
@@ -74,6 +80,8 @@ Attr.dependencies = function(fn) {
   watcher = false
   return deps
 }
+
+
 
 
 /* 
@@ -110,6 +118,8 @@ Attr.computed = function(fn, dependencies) {
   function changeFn() {
     attr.change()
   }
+
+  attr.computed = true
 
   return attr
 }

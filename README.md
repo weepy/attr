@@ -70,17 +70,10 @@ name.on('change', function(new_name, old_name) {
 
 ## Computed properties
 
-  These have the same API, except no setter and a function is passed in and is run to determine the initial value
-
-### attr.computed(fn, dependencies)
-
-  Creates a computed attr. 
-  Dependencies are automatically calculated unless set explicitly.
+  Has the same API, except function is passed in and is run to determine the initial value. (has no setter)
 
 ```javascript
-var cattr = require('attr').computed
-
-fullName = cattr(function() {
+fullName = attr(function() {
   return firstName() + ' ' + surName()
 })
 
@@ -89,11 +82,27 @@ fullName() // => 'Homer Simpson'
 fullName.dependencies // => [ firstName, surName ]
 ```
 
+Dependencies on other simple (non-computed) are automatically calculated unless set explicitly via a second argument as in:
+
+```
+fullName = attr(function() {
+  return firstName() + ' ' + surName()
+}, [firstName])
+
+fullName.dependencies // => [ firstName ]
+``
+
+### attr.autocompute
+
+  By default function values are assumed to be computed. This behaviour can be turned off by setting autocompute. 
+
+### attr.computed(fn, dependencies)
+  
+  Explicitly creates a computed property - this is only useful if autocompute is turned off
 
 ### attr.dependencies(fn)
 
-   Calculates a list of the simple attributes called by running this function
-
+  Calculates a list of the simple (non-computed) attributes called by running this function
 
 # Testing
 
