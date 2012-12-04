@@ -90,7 +90,7 @@ fullName = attr(function() {
 }, [firstName])
 
 fullName.dependencies // => [ firstName ]
-``
+```
 
 ### attr.autocompute
 
