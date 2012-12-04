@@ -40,6 +40,32 @@ name.on('change', function(new_name, old_name) {
 })
 ```
 
+## Computed properties
+
+  Has the same API, except function is passed in and is run to determine the initial value. (has no setter)
+
+```javascript
+fullName = attr(function() {
+  return firstName() + ' ' + surName()
+})
+
+fullName() // => 'Homer Simpson'
+
+fullName.dependencies // => [ firstName, surName ]
+```
+
+Dependencies on other simple (non-computed) are automatically calculated unless set explicitly via a second argument as in:
+
+```
+fullName = attr(function() {
+  return firstName() + ' ' + surName()
+}, [firstName])
+
+fullName.dependencies // => [ firstName ]
+```
+
+## attr methods
+
 ### .toggle()
 
   Flips truthy to false and falsey to true
@@ -67,30 +93,6 @@ name.on('change', function(new_name, old_name) {
 ### .dependencies
 
   Contains a list of dependencies (this will be null for simple attr)
-
-## Computed properties
-
-  Has the same API, except function is passed in and is run to determine the initial value. (has no setter)
-
-```javascript
-fullName = attr(function() {
-  return firstName() + ' ' + surName()
-})
-
-fullName() // => 'Homer Simpson'
-
-fullName.dependencies // => [ firstName, surName ]
-```
-
-Dependencies on other simple (non-computed) are automatically calculated unless set explicitly via a second argument as in:
-
-```
-fullName = attr(function() {
-  return firstName() + ' ' + surName()
-}, [firstName])
-
-fullName.dependencies // => [ firstName ]
-```
 
 ### attr.autocompute
 
