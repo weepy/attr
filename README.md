@@ -94,6 +94,8 @@ fullName.dependencies // => [ firstName ]
 
   Contains a list of dependencies (this will be null for simple attr)
 
+## additional
+
 ### attr.autocompute
 
   By default function values are assumed to be computed. This behaviour can be turned off by setting autocompute. 
