@@ -8,18 +8,15 @@ var methods = {
     return this(!this.value) 
   },
   change: function(fn) {
-    if(fn) {
-      this.on('change', fn)          // setup observer
-    }
-    else { // force the change
-      var val = this()
-      this.emit('change', val, this.old)
-    }
+    fn
+      ? this.on('change', fn)          // setup observer
+      : this.emit('change', this(), this.old)
     return this
   },
   toString: function() { 
-    return "attr:"+JSON.stringify(this.value)
-  }
+    return "attr:" + JSON.stringify(this.value)
+  },
+  'constructor': Attr
 }
 
 Emitter(methods)
@@ -34,10 +31,10 @@ function extend(a, b) {
 
 var watcher = false
 
-function Attr(arg, dependencies) {
+function Attr(arg, deps) {
 
   // autocreate computed attr for function values
-  if(Attr.autocompute && typeof arg =='function') return Attr.computed(arg, dependencies)
+  if(Attr.autocompute && typeof arg == 'function') return Attr.computed(arg, deps)
 
   function attr(v) {
     if(arguments.length) {
@@ -46,8 +43,9 @@ function Attr(arg, dependencies) {
       attr.value = v
       
       attr.emit('change', attr.value, attr.old)
-    } else {
-      if(watcher) watcher(attr)
+    } 
+    else {
+      if(Dependencies.list) Dependencies.list.push(attr)
     }
     return attr.value
   }
@@ -67,28 +65,22 @@ function Attr(arg, dependencies) {
 
 Attr.autocompute = true
 
+function Dependencies(fn) {
+  if(Dependencies.list) throw 'nested dependencies'
 
-var lastValue = null
-
-Attr.dependencies = function(fn) {
-  var deps = []
-  // watches for simple attr reads
-  watcher = function(attr) {
-    deps.push(attr)
-  }
-  lastValue = fn()
-  watcher = false
+  var deps = Dependencies.list = []
+  Dependencies.lastValue = fn()
+  delete Dependencies.list
   return deps
 }
 
-
-
+Attr.dependencies = Dependencies
 
 /* 
  * computed attribute
  */
 
-Attr.computed = function(fn, dependencies) {
+Attr.computed = function(fn, deps) {
   function attr() {
     // nb - there is no setter
     attr.old = attr.value
@@ -101,16 +93,16 @@ Attr.computed = function(fn, dependencies) {
   extend(attr, methods)
 
   // setup dependencies
-  if(dependencies) {
+  if(deps) {
     attr.value = fn() // set to initial value
   } else {
-    dependencies = Attr.dependencies(fn)
-    attr.value = lastValue
+    deps = Dependencies(fn)
+    attr.value = Dependencies.lastValue
   }
 
-  attr.dependencies = dependencies
+  attr.dependencies = deps
 
-  dependencies.forEach(function(dep) {
+  deps.forEach(function(dep) {
     dep.on('change', changeFn)
   })
 

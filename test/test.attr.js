@@ -1,6 +1,7 @@
 var attr = require('attr')
   , assert = require('component-assert')
 
+
 describe('attr()', function(){
   
   it('should return an attr', function(){
@@ -209,6 +210,41 @@ describe('attr()', function(){
       assert(a() == returnsOne )
     })
 
+    it('should throw if handle nested dependencies', function() {
+      attr.autocompute = true
+
+
+      var x = attr(1)
+        , y = attr(2)
+        , fn
+        , fn2
+
+      assertThrows(function() {
+        fn = attr(function() {
+          x()
+          fn2 = attr(function() {
+            y()
+          })
+        })
+      })
+
+    })
   })
+
+
   
 })
+
+
+function assertThrows(fn) {
+  var thrown = false
+
+  try {
+    fn()
+  }
+  catch(e) {
+    thrown = true
+  }
+
+  assert(thrown)
+}
